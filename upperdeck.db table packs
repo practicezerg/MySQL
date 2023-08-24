@@ -1,0 +1,10 @@
+USE upperdeck;
+CREATE TABLE packs (
+    id int NOT NULL AUTO_INCREMENT,
+    genre varchar(100) NOT NULL,
+    year varchar(50) NOT NULL,
+    name varchar(50) NOT NULL,
+    full_price int NOT NULL DEFAULT 0,
+    count_cards int NOT NULL DEFAULT 0,
+    1card_price int NOT NULL DEFAULT 0,
+);
