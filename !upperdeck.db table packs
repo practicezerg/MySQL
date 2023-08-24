@@ -4,9 +4,9 @@ CREATE TABLE packs (
     genre varchar(100) NOT NULL,
     year varchar(50) NOT NULL,
     name varchar(50) NOT NULL,
-    full_price int NOT NULL DEFAULT 0,
-    count_cards int NOT NULL DEFAULT 0,
-    1card_price int NOT NULL DEFAULT 0,
+    full_price float NOT NULL DEFAULT 0,
+    count_cards float NOT NULL DEFAULT 0,
+    1card_price float NOT NULL DEFAULT 0,
 );
 
 
