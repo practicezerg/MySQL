@@ -8,3 +8,12 @@ CREATE TABLE packs (
     count_cards int NOT NULL DEFAULT 0,
     1card_price int NOT NULL DEFAULT 0,
 );
+
+
+
+USE upperdeck;
+INSERT INTO packs (genre, year, name, full_price, count_cards, 1card_price)
+VALUES
+    ('Fantasy', '2023', 'Magic: The Gathering', 500, 36, 15),
+    ('Science Fiction', '2023', 'Star Wars', 600, 24, 25),
+    ('Adventure', '2022', 'Dungeons & Dragons', 400, 42, 10);
