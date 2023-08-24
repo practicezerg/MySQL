@@ -1,0 +1,105 @@
+--  <<  коментирует строку в SQL, но в скрипте очень плохо работает. Лучше не злоупотреблять
+
+При создании и удалении, лучше ставить Cascade
+
+Создание баз 
+            CREATE DATABASE my_db_cli;          - созадсть бд
+            SHOW DATABASES;                     - показать бд
+            USE name_base;                      - провалится в бд
+            DROP DATABASE ;                     - удаление бд
+
+
+Создание таблиц
+
+            USE name_base;                      - провалится в бд
+            create table name_table (stolbec1 type_data)
+            ++CREATE TABLE IF NOT EXISTS users()                  - создание таблицы, с проверкой если она еще не создана
+
+            ALTER TABLE name_table ADD PRIMARY KEY (столбец);   - создание primary key (определяющего ключа)
+            ***внешний ключ должен быть INT вроде так же как и связь.
+            FOREIGN KEY (author_id) REFERENCES authors(author_id)   - внешний ключ
+            ALTER TABLE books ADD FOREIGN KEY (author_id) REFERENCES authors(author_id);- внешний ключ в уже созданой таблице
+            ALTER TABLE info_db.disk ADD CONSTRAINT disk_FK FOREIGN KEY (server) REFERENCES info_db.servers(id);
+            ALTER TABLE books RENAME TO books_selectel;         - переименование таблицы
+
+            ALTER TABLE name_table ADD COLUMN name_column VARCHAR(50) NOT NULL;      - добавление одной позиции
+            ALTER TABLE name_table ADD COLUMN name_column VARCHAR(50) NOT NULL, ADD COLUMN name_column2 VARCHAR (100) NOT NULL; - несколько позиции
+
+            DELETE FROM name_table WHERE name_column="name_string";      - удаление name_string из колонки name_column в таблице name_table
+
+            DROP table name_table;   - удаление таблицы
+            TRUNCATE TABLE name_table;  - быстрое удаление всех данных, кроме структуры самой таблицы.
+
+Колонки
+    ALTER TABLE name_table ADD name_column VARCHAR(50) NULL;    Создание колонки в дейстудющей таблице
+
+    ALTER TABLE servers MODIFY php varchar(60)          изменить тип данных в колонке размерность
+
+>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>> Основные команды <<<<<<<<<
+
+    SELECT - делает выборку 
+        SELECT * FROM itv  (Делает выборку по базе itv, * - говорит о распоковке всего содержимого)
+        SELECT number, name, cmd FROM itv  (говорит о распоковке конкретных позиций number, name, cmd - порядок записи важен в такое и будет представлен)
+
+        select * from users where name = jung   (выводит все строчки из таблицы user c условием что в столбце name встречается jung )
+        select * from users where name = jung and years(birhday) > 2000;   (выводит все строчки из таблицы user c условием что в столбце name встречается jung )
+        select name from passenger where name like "%man"   (находит совпадения с шаблоном. % - любое количество символов  - - одиночный символ)
+        Select COUNT(*) as count from trip where plane="TU-134"     Подсчитывает количество ту-134 в колонке трип
+        Select sum(age) as age_sum from people;                сложить все значения в столбце age в таблице people/
+        select DISTINCT storage_name from tv_archive_tmp tat ;   выбирает только уникальные значения
+
+
+    INSERT
+        Для добавления данных в БД в MySQL используется команда INSERT, которая имеет следующий формальный синтаксис:
+            INSERT [INTO] имя_таблицы [(список_столбцов)] VALUES (значение1, значение2, ... значениеN)
+            После выражения INSERT INTO в скобках можно указать список столбцов через запятую, в которые надо добавлять данные, и в конце после слова VALUES скобках перечисляют добавляемые для столбцов значения.
+            INSERT INTO  servers (os, name) VALUES ("Ubuntu 18.04.2 LTS", "iptv-app.freedom-vrn.ru");
+
+    JOIN
+        INNER JOIN (CROSS JOIN) - внутреннее (перекрёстное) объединение
+        LEFT JOIN - левостороннее внешнее объединение
+        RIGHT JOIN - правостороннее внешнее объединение
+
+    UPDATE
+        Команда UPDATE применяется для обновления уже имеющихся строк. Она имеет следующий формальный синтаксис
+            UPDATE Products SET Price = Price + 3000;
+            UPDATE users SET name='test15' where name='test13'    Если надо поменять конретную позицию и она еднинична
+            UPDATE users SET name='test15' where mail='test13@mail.ru'    Можно поменять привязавшись к соседней ячейке
+
+
+
+
+
+
+Привилегии.
+    Для начала, Вам нужно понимать, что в MySQL привилегии могут выдаваться на разные объекты
+
+        На весь сервер
+        На какие-то базы
+        На какие-то таблицы
+        На какие-то столбцы
+                Запрос
+        .* в конце db дает нам понять что мы даем разрешения на все колонки и строчки
+        show grants for %username%;   - где username - конкретный пользователь
+        SHOW GRANTS FOR 'username'@'host';
+        GRANT ALL PRIVILEGES ON my_db_cli.* TO 'user_cli'@'%' WITH GRANT OPTION;    - создает все привелегии на базу ()
+        REVOKE type_of_permission ON database_name.table_name FROM 'username'@'host';   - снятие привилегий с пользователя
+
+
+
+
+SELECT user, host, SELECT_PRIV, INSERT_PRIV, UPDATE_PRIV, DELETE_PRIV FROM mysql.user;  показывает полдзователей и их привиегии.
+    
+SELECT user, host FROM mysql.user;    - юзеры в самой базе sql
+
+
+Создане пользователей
+    CREATE USER 'user_cli'@'%' IDENTIFIED BY 'password';    - внешнего пользовтаеля
+    CREATE USER 'username'@'host' IDENTIFIED WITH authentication_plugin BY 'password';               - создание пользователя username на базе host с паролем password c 
+                                                                                                        использованием пагина
+    CREATE USER 'sammy'@'localhost' IDENTIFIED BY 'password';                                       -  создаем пользователя sammy c паролем password на безе localhost
+    + CREATE USER 'sammy'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+    ALTER USER 'sammy'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';             - изменить пароль
+
+    DROP USER 'username'@'localhost';    - удаление пользователя
