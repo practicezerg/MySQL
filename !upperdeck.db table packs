@@ -14,6 +14,4 @@ CREATE TABLE packs (
 USE upperdeck;
 INSERT INTO packs (genre, year, name, full_price, count_cards, 1card_price)
 VALUES
-    ('Fantasy', '2023', 'Magic: The Gathering', 500, 36, 15),
-    ('Science Fiction', '2023', 'Star Wars', 600, 24, 25),
-    ('Adventure', '2022', 'Dungeons & Dragons', 400, 42, 10);
+    ('hockey', '2022', 'SP Signature Edition Legends Hockey', 11.99, 5, (full_price/count_cards));
